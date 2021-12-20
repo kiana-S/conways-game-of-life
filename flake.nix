@@ -38,6 +38,8 @@
             ghcid
             cabal-install
             hlint
+            pkgs.haskell-language-server
+            pkgs.ormolu
           ];
           inputsFrom = builtins.attrValues self.packages.${system};
         };
