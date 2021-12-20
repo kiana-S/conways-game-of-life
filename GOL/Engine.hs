@@ -11,10 +11,10 @@ import GOL.Space
 
 type GOL f = EnvT Rule (Store f)
 
-getNeighbors :: forall s f a. Space s f => GOL f a -> [a]
-getNeighbors = experiment $ neighbors @s @f
+getNeighbors :: forall f a. Space f => GOL f a -> [a]
+getNeighbors = experiment $ neighbors @f
 
-nextState :: Space s f => GOL f Bool -> Bool
+nextState :: Space f => GOL f Bool -> Bool
 nextState = do
   selfState <- extract
   neighborStates <- getNeighbors
@@ -26,5 +26,5 @@ nextState = do
             else birth count
 
 
-tick :: Space s f => GOL f Bool -> GOL f Bool
+tick :: Space f => GOL f Bool -> GOL f Bool
 tick = extend nextState
