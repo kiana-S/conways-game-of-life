@@ -7,9 +7,11 @@ build-type:     Simple
 cabal-version:  >= 1.8
 
 executable main
-  main-is:            Main.hs
-  build-depends:      base,
-                      comonad,
-                      Yampa,
-                      adjunctions
-  default-extensions: MultiParamTypeClasses
+  main-is:        Main.hs
+  other-modules:  GOL.Rule,
+                  GOL.Space,
+                  GOL.Engine
+  build-depends:  base,
+                  comonad,
+                  Yampa,
+                  adjunctions
