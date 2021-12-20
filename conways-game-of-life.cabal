@@ -8,5 +8,6 @@ cabal-version:  >= 1.8
 
 executable main
   build-depends:  base,
-                  comonad
+                  comonad,
+                  Yampa
   main-is:        Main.hs
