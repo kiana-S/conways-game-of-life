@@ -10,8 +10,7 @@ module GOL.Rule where
 -- the current cell, and returns whether that cell will be
 -- alive in the next generation.
 data Rule = Rule
-  {
-    -- | A predicate deciding if an alive cell
+  { -- | A predicate deciding if an alive cell
     -- will be alive in the next generation.
     survive :: Int -> Bool,
     -- | A predicate deciding if a dead cell
@@ -19,8 +18,11 @@ data Rule = Rule
     birth :: Int -> Bool
   }
 
+-- | Construct a rule by giving lists of
+-- values that satisfy each predicate.
+rule :: [Int] -> [Int] -> Rule
+rule s b = Rule (`elem` s) (`elem` b)
 
 -- | The standard GOL rule (S23/B3).
 standardRule :: Rule
-standardRule = Rule (`elem` [2,3]) (== 3)
-
+standardRule = rule [2, 3] [3]
