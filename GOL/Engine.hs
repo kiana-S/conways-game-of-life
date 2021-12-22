@@ -4,8 +4,10 @@
 module GOL.Engine where
 
 import Control.Comonad.Env
+import Control.Comonad.Identity (Identity (Identity))
 import Control.Comonad.Representable.Store
 import Data.Bool (bool)
+import Data.Functor.Rep
 import GOL.Rule
 import GOL.Space
 
@@ -13,6 +15,16 @@ import GOL.Space
 -- It consists of a store comonad over the space @f@,
 -- with an environment containing a rule.
 type GOL f = EnvT Rule (Store f)
+
+-- | Construct a 'GOL' value given a rule, a board
+-- state, and an initial position.
+gol :: Rule -> Rep f -> f a -> GOL f a
+gol r p s = EnvT r $ StoreT (Identity s) p
+
+-- | Construct a 'GOL' value on a displayable space,
+-- defaulting to an initial position of @(0, 0)@.
+gol' :: DisplayableSpace f => Rule -> f a -> GOL f a
+gol' r = gol r (0,0)
 
 getNeighbors :: forall f a. Space f => GOL f a -> [a]
 getNeighbors = experiment $ neighbors @f
