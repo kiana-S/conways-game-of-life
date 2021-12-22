@@ -14,4 +14,6 @@ executable main
   build-depends:  base,
                   comonad,
                   Yampa,
-                  adjunctions
+                  distributive,
+                  adjunctions,
+                  vector
