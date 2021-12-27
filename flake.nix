@@ -40,6 +40,10 @@
             hlint
             pkgs.haskell-language-server
             pkgs.ormolu
+
+            pkgs.mesa
+            pkgs.mesa_glu
+            pkgs.freeglut
           ];
           inputsFrom = builtins.attrValues self.packages.${system};
         };

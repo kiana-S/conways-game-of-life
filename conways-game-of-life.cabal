@@ -11,6 +11,7 @@ executable main
   other-modules:  GOL.Rule,
                   GOL.Space,
                   GOL.Engine,
+                  Graphics.GlossUtils,
                   Graphics.Engine
   build-depends:  base,
                   vector,
