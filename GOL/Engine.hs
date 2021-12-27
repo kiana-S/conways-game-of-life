@@ -26,6 +26,8 @@ gol r p s = EnvT r $ StoreT (Identity s) p
 gol' :: DisplayableSpace f => Rule -> f a -> GOL f a
 gol' r = gol r (0,0)
 
+
+
 getNeighbors :: forall f a. Space f => GOL f a -> [a]
 getNeighbors = experiment $ neighbors @f
 

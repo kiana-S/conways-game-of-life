@@ -10,10 +10,12 @@ executable main
   main-is:        Main.hs
   other-modules:  GOL.Rule,
                   GOL.Space,
-                  GOL.Engine
+                  GOL.Engine,
+                  Graphics.Engine
   build-depends:  base,
+                  vector,
                   comonad,
-                  Yampa,
                   distributive,
                   adjunctions,
-                  vector
+                  Yampa,
+                  gloss
