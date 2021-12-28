@@ -15,8 +15,8 @@ import qualified Data.Vector as V
 -- takes place, with a notion of "neighbors to a cell" defined.
 --
 -- More specifically, a space is a representable functor @f@ such
--- that @'Rep' f@ is a graph. 'neighbors' then takes a node of
--- that graph and returns all nodes that are adjacent.
+-- that @'Rep' f@ is a simple undirected graph. 'neighbors' then
+-- takes a node of that graph and returns all nodes that are adjacent.
 --
 -- Instances should satisfy:
 --
