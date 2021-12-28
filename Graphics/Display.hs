@@ -32,4 +32,5 @@ drawGrid :: forall f. DisplayableSpace f => Config -> f Bool -> Picture
 drawGrid config xs =
   let (w, h) = windowSize config
       size = fromIntegral $ if w > h then h `div` sizey @f else w `div` sizex @f
-   in color (cellColor config) $ pictures $ drawCells xs size
+   in translate (fromIntegral $ -w `div` 2) (fromIntegral $ -h `div` 2) $
+      color (cellColor config) $ pictures $ drawCells xs size

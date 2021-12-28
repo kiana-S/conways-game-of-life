@@ -51,7 +51,7 @@ instance Distributive ToroidalSpace where
 
 instance Representable ToroidalSpace where
   type Rep ToroidalSpace = (Int, Int)
-  index (TS s) (i, j) = s ! j ! i
+  index (TS s) (i, j) = s ! i ! j
   tabulate f = TS $ V.generate 100 (\x -> V.generate 100 $ \y -> f (x, y))
 
 instance Space ToroidalSpace where
