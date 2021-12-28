@@ -12,7 +12,8 @@ executable main
                   GOL.Space,
                   GOL.Engine,
                   Graphics.GlossUtils,
-                  Graphics.Engine
+                  Graphics.Engine,
+                  Graphics.Display
   build-depends:  base,
                   vector,
                   comonad,
