@@ -1,12 +1,15 @@
 module Graphics.Config where
 
 import FRP.Yampa (Time)
-import GOL.Rule (Rule)
-import Graphics.Gloss (Color)
+import GOL.Rule
+import Graphics.Gloss (Color, white)
 
 data Config = Config
-  { cellColor :: Color,
-    rule :: Rule,
-    tickRate :: Time,
+  { rule :: Rule,
+    tickPeriod :: Time,
+    cellColor :: Color,
     windowSize :: (Int, Int)
   }
+
+defaultConfig :: Config
+defaultConfig = Config standardRule 1.0 white (500, 500)

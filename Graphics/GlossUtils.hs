@@ -25,7 +25,7 @@ import qualified Graphics.Gloss
 import Graphics.Gloss.Interface.IO.Game (playIO)
 import qualified Graphics.Gloss.Interface.IO.Game as G
 
-type InputEvent = G.Event
+type InputEvent = Event G.Event
 
 playYampa ::
   -- | The display method
@@ -34,7 +34,7 @@ playYampa ::
   Color ->
   -- | The refresh rate, in Hertz
   Int ->
-  SF (Event InputEvent) Picture ->
+  SF InputEvent Picture ->
   IO ()
 playYampa display color frequency mainSF = do
   picRef <- newIORef blank
