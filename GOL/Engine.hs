@@ -24,9 +24,10 @@ gol r p s = EnvT r $ StoreT (Identity s) p
 -- | Construct a 'GOL' value on a displayable space,
 -- defaulting to an initial position of @(0, 0)@.
 gol' :: DisplayableSpace f => Rule -> f a -> GOL f a
-gol' r = gol r (0,0)
+gol' r = gol r (0, 0)
 
-
+getSpace :: GOL f a -> f a
+getSpace (EnvT _ (StoreT (Identity s) _)) = s
 
 getNeighbors :: forall f a. Space f => GOL f a -> [a]
 getNeighbors = experiment $ neighbors @f
