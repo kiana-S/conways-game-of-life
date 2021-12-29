@@ -23,8 +23,9 @@
         jailbreakUnbreak = pkg:
           pkgs.haskell.lib.doJailbreak (pkg.overrideAttrs (_: { meta = { }; }));
 
-        # DON'T FORGET TO PUT YOUR PACKAGE NAME HERE, REMOVING `throw`
         packageName = "conways-game-of-life";
+
+        execName = "gol";
       in {
         packages.${packageName} =
           haskellPackages.callCabal2nix packageName self rec {
@@ -32,6 +33,13 @@
           };
 
         defaultPackage = self.packages.${system}.${packageName};
+
+        apps.${execName} = {
+          type = "app";
+          program = "${self.packages.${system}.${packageName}}/bin/${execName}";
+        };
+
+        defaultApp = self.apps.${system}.${execName};
 
         devShell = pkgs.mkShell {
           buildInputs = with haskellPackages; [
