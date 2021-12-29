@@ -12,7 +12,7 @@ executable gol
                   GOL.Space,
                   GOL.Engine,
                   Graphics.GlossUtils,
-                  Graphics.Config,
+                  Graphics.Command,
                   Graphics.Engine,
                   Graphics.Display
   build-depends:  base,

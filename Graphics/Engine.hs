@@ -1,5 +1,6 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE Arrows #-}
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
@@ -11,7 +12,7 @@ import FRP.Yampa
 import GOL.Engine
 import GOL.Rule
 import GOL.Space
-import Graphics.Config
+import Graphics.Command
 import Graphics.Display (drawGrid)
 import Graphics.Gloss
 import Graphics.Gloss.Interface.IO.Game hiding (Event)
@@ -34,15 +35,23 @@ tickSignal =
   arr (\ev -> ((), fmap repeatTick ev))
     >>> drSwitch (repeatTick 0.2)
 
-processEvent :: G.Event -> Config -> Config
-processEvent (EventKey (Char '-') Down _ _) c = c {tickPeriod = tickPeriod c * 0.8}
-processEvent (EventResize s) c = c {windowSize = s}
-processEvent _ c = c
+processEvent :: InputEvent -> CommandEvent
+processEvent = event noEvent $ \case
+  EventKey (Char '-') Down _ _ -> Event $ ChangeSpeed (* 1.25)
+  EventKey (Char '+') Down _ _ -> Event $ ChangeSpeed (* 0.8)
+  EventKey {} -> noEvent
+  EventMotion {} -> noEvent
+  EventResize size -> Event $ Resize size
 
 run :: forall f. DisplayableSpace f => f Bool -> SF InputEvent Picture
-run st = proc ev -> do
-              c <- accum defaultConfig -< fmap processEvent ev
-              c' <- hold defaultConfig -< c
-              t <- tickSignal -< fmap tickPeriod c
-              s <- engine (gol' standardRule st) -< t
-              identity -< drawGrid c' (getSpace s)
+run st =
+  let initSpace = gol' standardRule st
+   in proc inp -> do
+        let cmdev = processEvent inp
+
+        time <- accum 0.2 -< mapFilterE getChangeSpeed cmdev
+        windowSize <- hold (100, 100) -< mapFilterE getResize cmdev
+
+        space <- engine initSpace <<< tickSignal -< time
+
+        returnA -< drawGrid windowSize white (getSpace space)
