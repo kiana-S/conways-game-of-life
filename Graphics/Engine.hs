@@ -1,7 +1,7 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE Arrows #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TypeApplications #-}
 
 module Graphics.Engine where
 
@@ -32,7 +32,7 @@ repeatTick t = repeatedly t ()
 tickSignal :: SF (Event Time) TickEvent
 tickSignal =
   arr (\ev -> ((), fmap repeatTick ev))
-    >>> drSwitch (repeatTick 0.5)
+    >>> drSwitch (repeatTick 0.2)
 
 processEvent :: G.Event -> Config -> Config
 processEvent (EventKey (Char '-') Down _ _) c = c {tickPeriod = tickPeriod c * 0.8}
@@ -40,9 +40,9 @@ processEvent (EventResize s) c = c {windowSize = s}
 processEvent _ c = c
 
 run :: forall f. DisplayableSpace f => f Bool -> SF InputEvent Picture
-run st =
-  (arr . fmap) processEvent
-    >>> accum defaultConfig
-    >>> identity &&& (arr . fmap) tickPeriod
-    >>> hold defaultConfig *** (tickSignal >>> engine @f (gol' standardRule st))
-    >>> arr (\(c, s) -> drawGrid @f c (getSpace s))
+run st = proc ev -> do
+              c <- accum defaultConfig -< fmap processEvent ev
+              c' <- hold defaultConfig -< c
+              t <- tickSignal -< fmap tickPeriod c
+              s <- engine (gol' standardRule st) -< t
+              identity -< drawGrid c' (getSpace s)

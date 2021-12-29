@@ -12,4 +12,4 @@ data Config = Config
   }
 
 defaultConfig :: Config
-defaultConfig = Config standardRule 1.0 white (500, 500)
+defaultConfig = Config standardRule 0.2 white (500, 500)
