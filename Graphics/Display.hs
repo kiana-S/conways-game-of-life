@@ -31,6 +31,9 @@ drawCells xs size =
 -- | Draw a grid of a displayable space given the window size and cell color.
 drawGrid :: forall f. DisplayableSpace f => (Int, Int) -> Color -> f Bool -> Picture
 drawGrid (w, h) c xs =
-  let size = fromIntegral $ if w > h then h `div` sizey @f else w `div` sizex @f
-   in translate (fromIntegral $ -w `div` 2) (fromIntegral $ -h `div` 2) $
-      color c $ pictures $ drawCells xs size
+  let size =
+        if w < h
+          then fromIntegral w / fromIntegral (sizex @f)
+          else fromIntegral h / fromIntegral (sizey @f)
+   in translate (-fromIntegral w / 2) (-fromIntegral h / 2) $
+        color c $ pictures $ drawCells xs size
