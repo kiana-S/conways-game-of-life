@@ -15,4 +15,4 @@ main =
     (InWindow "Conway's Game of Life" (200, 200) (10, 10))
     black
     30
-    (run space)
+    (run (200, 200) space)

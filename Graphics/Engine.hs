@@ -44,15 +44,15 @@ processEvent = event noEvent $ \case
   EventMotion {} -> noEvent
   EventResize size -> Event $ Resize size
 
-run :: forall f. DisplayableSpace f => f Bool -> SF InputEvent Picture
-run st =
+run :: DisplayableSpace f => (Int, Int) -> f Bool -> SF InputEvent Picture
+run size st =
   let initSpace = gol' standardRule st
    in proc inp -> do
         let cmdev = processEvent inp
 
         playing <- accumHoldBy (const . not) True -< filterE isPlayPause cmdev
         time <- accum 0.2 -< mapFilterE getChangeSpeed cmdev
-        windowSize <- hold (100, 100) -< mapFilterE getResize cmdev
+        windowSize <- hold size -< mapFilterE getResize cmdev
 
         tick <- tickSignal -< time
         space <- engine initSpace -< gate tick playing
