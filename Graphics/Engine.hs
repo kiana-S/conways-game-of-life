@@ -39,6 +39,7 @@ processEvent :: InputEvent -> CommandEvent
 processEvent = event noEvent $ \case
   EventKey (Char '-') Down _ _ -> Event $ ChangeSpeed (* 1.25)
   EventKey (Char '+') Down _ _ -> Event $ ChangeSpeed (* 0.8)
+  EventKey (SpecialKey KeySpace) Down _ _ -> Event PlayPause
   EventKey {} -> noEvent
   EventMotion {} -> noEvent
   EventResize size -> Event $ Resize size
@@ -49,9 +50,11 @@ run st =
    in proc inp -> do
         let cmdev = processEvent inp
 
+        playing <- accumHoldBy (const . not) True -< filterE isPlayPause cmdev
         time <- accum 0.2 -< mapFilterE getChangeSpeed cmdev
         windowSize <- hold (100, 100) -< mapFilterE getResize cmdev
 
-        space <- engine initSpace <<< tickSignal -< time
+        tick <- tickSignal -< time
+        space <- engine initSpace -< gate tick playing
 
         returnA -< drawGrid windowSize white (getSpace space)

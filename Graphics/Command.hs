@@ -10,6 +10,8 @@ data Command
   | -- | A command to change the tick speed of the simulation,
     -- given by a function on the period between ticks.
     ChangeSpeed (Time -> Time)
+  | -- | A command to play/pause the simulation.
+    PlayPause
 
 getResize :: Command -> Maybe (Int, Int)
 getResize (Resize size) = Just size
@@ -18,6 +20,10 @@ getResize _ = Nothing
 getChangeSpeed :: Command -> Maybe (Time -> Time)
 getChangeSpeed (ChangeSpeed f) = Just f
 getChangeSpeed _ = Nothing
+
+isPlayPause :: Command -> Bool
+isPlayPause PlayPause = True
+isPlayPause _ = False
 
 -- | An event signalling that a command has been given by the user.
 type CommandEvent = Event Command

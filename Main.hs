@@ -10,4 +10,4 @@ space :: ToroidalSpace Bool
 space = tabulate (\(x,y) -> (x + y `mod` 5) * 10 + x - y > 30)
 
 main :: IO ()
-main = playYampa (InWindow "a" (2, 2) (2, 2)) black 30 (run space)
+main = playYampa (InWindow "a" (200, 200) (10, 10)) black 30 (run space)
