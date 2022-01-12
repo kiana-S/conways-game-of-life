@@ -26,5 +26,6 @@ cabal.project.local~
 # ignore vscodium's local config
 .vscode/
 
-# ignore nix result symlinks
+# ignore nix build system
 result*
+.direnv
