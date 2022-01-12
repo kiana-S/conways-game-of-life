@@ -43,7 +43,7 @@
 
         devShell = pkgs.mkShell {
           buildInputs = with haskellPackages; [
-            ghcid
+            ghc
             cabal-install
             hlint
             pkgs.haskell-language-server
