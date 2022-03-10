@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: CC0-1.0
 
 {
-  description = "My haskell application";
+  description = "Conway's Game of Life in Haskell";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
