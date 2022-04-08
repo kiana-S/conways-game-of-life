@@ -6,6 +6,7 @@ import Graphics.Engine (initialSpace, run)
 import Graphics.Gloss
 import Graphics.GlossUtils (playYampa)
 
+-- random space just to test things
 space :: ToroidalSpace Bool
 space = tabulate (\(x, y) -> (x + y `mod` 5) * 10 + x - y > 30)
 
